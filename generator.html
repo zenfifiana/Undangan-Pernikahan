@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Generator Link Undangan</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 20px;
+
+            background:
+                #fffdf9;
+
+            color:
+                #4b3028;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+        }
+
+
+        .generator {
+
+            width: 100%;
+
+            max-width: 430px;
+
+            padding: 28px 22px;
+
+            background:
+                rgba(255, 255, 255, 0.95);
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 8px 25px
+                rgba(75, 48, 40, 0.12);
+
+            text-align: center;
+
+        }
+
+
+        h1 {
+
+            font-size: 24px;
+
+            font-weight: normal;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .subjudul {
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+            margin-bottom: 25px;
+
+            opacity: 0.75;
+
+        }
+
+
+        label {
+
+            display: block;
+
+            text-align: left;
+
+            font-size: 13px;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        input {
+
+            width: 100%;
+
+            height: 44px;
+
+            padding:
+                10px 13px;
+
+            border:
+                1px solid
+                rgba(75, 48, 40, 0.2);
+
+            border-radius: 10px;
+
+            outline: none;
+
+            color:
+                #4b3028;
+
+            background:
+                #fffdf9;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 14px;
+
+        }
+
+
+        input:focus {
+
+            border-color:
+                #8b634f;
+
+        }
+
+
+        button {
+
+            width: 100%;
+
+            height: 44px;
+
+            margin-top: 15px;
+
+            border: none;
+
+            border-radius: 25px;
+
+            background:
+                #8b634f;
+
+            color:
+                white;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 14px;
+
+            cursor: pointer;
+
+        }
+
+
+        button:active {
+
+            transform:
+                scale(0.98);
+
+        }
+
+
+        .hasil {
+
+            margin-top: 22px;
+
+            padding-top: 20px;
+
+            border-top:
+                1px solid
+                rgba(75, 48, 40, 0.1);
+
+        }
+
+
+        .hasil-label {
+
+            font-size: 12px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        #linkHasil {
+
+            width: 100%;
+
+            min-height: 70px;
+
+            padding: 10px;
+
+            border:
+                1px solid
+                rgba(75, 48, 40, 0.15);
+
+            border-radius: 10px;
+
+            background:
+                #f8f2ed;
+
+            font-size: 11px;
+
+            line-height: 1.6;
+
+            word-break: break-all;
+
+            text-align: left;
+
+        }
+
+
+        .tombol-salin {
+
+            margin-top: 10px;
+
+        }
+
+
+        #status {
+
+            min-height: 20px;
+
+            margin-top: 10px;
+
+            font-size: 12px;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="generator">
+
+    <h1>
+        Generator Link Undangan
+    </h1>
+
+    <p class="subjudul">
+        Masukkan nama tamu untuk membuat
+        link undangan personal.
+    </p>
+
+
+    <label for="namaTamu">
+
+        Nama Tamu
+
+    </label>
+
+
+    <input
+        type="text"
+        id="namaTamu"
+        placeholder="Contoh: Bapak Ahmad & Keluarga"
+        autocomplete="off"
+    >
+
+
+    <button
+        type="button"
+        onclick="buatLink()">
+
+        Buat Link
+
+    </button>
+
+
+    <div class="hasil">
+
+        <p class="hasil-label">
+            Link Undangan
+        </p>
+
+
+        <div id="linkHasil">
+            Link akan muncul di sini.
+        </div>
+
+
+        <button
+            type="button"
+            class="tombol-salin"
+            onclick="salinLink()">
+
+            Salin Link
+
+        </button>
+
+
+        <p id="status"></p>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+
+/* =====================================================
+   URL UTAMA UNDANGAN
+===================================================== */
+
+const URL_UNDANGAN =
+    "https://zenfifiana.github.io/Irfan-Zerlinda/";
+
+
+
+/* =====================================================
+   ELEMENT
+===================================================== */
+
+const inputNama =
+    document.getElementById("namaTamu");
+
+const linkHasil =
+    document.getElementById("linkHasil");
+
+const status =
+    document.getElementById("status");
+
+
+
+/* =====================================================
+   MEMBUAT LINK
+===================================================== */
+
+function buatLink() {
+
+
+    const nama =
+        inputNama.value.trim();
+
+
+    if (nama === "") {
+
+        status.textContent =
+            "Silakan masukkan nama tamu.";
+
+        return;
+
+    }
+
+
+    const namaEncode =
+        encodeURIComponent(nama);
+
+
+    const link =
+        URL_UNDANGAN +
+        "?tamu=" +
+        namaEncode;
+
+
+    linkHasil.textContent =
+        link;
+
+
+    status.textContent =
+        "Link berhasil dibuat.";
+
+}
+
+
+
+/* =====================================================
+   SALIN LINK
+===================================================== */
+
+async function salinLink() {
+
+
+    const link =
+        linkHasil.textContent;
+
+
+    if (
+        !link ||
+        link === "Link akan muncul di sini."
+    ) {
+
+        status.textContent =
+            "Buat link terlebih dahulu.";
+
+        return;
+
+    }
+
+
+    try {
+
+        await navigator.clipboard.writeText(
+            link
+        );
+
+
+        status.textContent =
+            "Link berhasil disalin.";
+
+    }
+
+
+    catch (error) {
+
+        status.textContent =
+            "Gagal menyalin link.";
+
+    }
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
